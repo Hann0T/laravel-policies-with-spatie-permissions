@@ -15,10 +15,6 @@ class PostController extends Controller
      */
     public function index()
     {
-        if (!Gate::allows('cansee-all-posts')) {
-            abort(403);
-        }
-
         return view('posts', [
             'posts' => Post::all(),
         ]);
@@ -64,9 +60,6 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        if (!Gate::allows('update-post', $post)) {
-            abort(403);
-        }
         return view('posts-update', compact('post'));
     }
 
@@ -97,10 +90,6 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        if (!Gate::allows('destroy-post', $post)) {
-            abort(403);
-        }
-
         $post->delete();
 
         return redirect('/posts')->with('success', 'Task deleted successfully');

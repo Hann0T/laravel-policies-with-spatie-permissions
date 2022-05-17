@@ -26,21 +26,6 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        Gate::define('cansee-all-posts', function (User $user) {
-            return $user->role == 'admin';
-        });
-
-        Gate::define('create-post', function (User $user, Post $post) {
-            return $user->role == 'admin';
-        });
-
-        Gate::define('update-post', function (User $user, Post $post) {
-            return $user->id == $post->user_id || $user->role == 'admin';
-        });
-
-        Gate::define('destroy-post', function (User $user, Post $post) {
-            return $user->id == $post->user_id || $user->role == 'admin';
-        });
+        //
     }
 }
