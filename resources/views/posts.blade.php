@@ -414,26 +414,27 @@
                 <th>delete</th>
             </tr>
             @foreach($posts as $post)
+            @can('view', $post)
             <tr>
                 <td>{{ $post->title }}</td>
                 <td>{{ $post->slug }}</td>
                 <td>{{ $post->user_id }}</td>
+                @can('update', $post)
                 <td>
                     <a class="border py-2 px-4 rounded" href="/posts/{{ $post->id }}/update">update</a>
                 </td>
+                @endcan
+                @can('delete', $post)
                 <td>
                     <form method="POST" action="{{route('post.destroy',$post)}}">
                         @method('DELETE')
                         @csrf
-                        <input
-                            type="submit"
-                            value="Delete"
-                            class="border py-2 px-4 rounded"
-                            onclick="return confirm('Are you sure?')"
-                        >
+                        <input type="submit" value="Delete" class="border py-2 px-4 rounded" onclick="return confirm('Are you sure?')">
                     </form>
                 </td>
+                @endcan
             </tr>
+            @endcan
             @endforeach
         </table>
     </div>

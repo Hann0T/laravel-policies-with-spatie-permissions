@@ -14,6 +14,8 @@ class PostController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Post::class);
+
         return view('posts', [
             'posts' => Post::all(),
         ]);
@@ -26,7 +28,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('create', Post::class);
+        // return view('post-create');
     }
 
     /**
@@ -37,7 +40,9 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('create', Post::class);
+
+        // store logic
     }
 
     /**
@@ -59,6 +64,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $this->authorize('update', $post);
+
         return view('posts-update', compact('post'));
     }
 
@@ -71,6 +78,8 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $this->authorize('update', $post);
+
         Post::where('id', $post->id)->update([
             'title' => $request->post()['title'],
             'slug' => $request->post()['slug'],
@@ -89,6 +98,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('delete', $post);
+
         $post->delete();
 
         return redirect('/posts')->with('success', 'Task deleted successfully');
